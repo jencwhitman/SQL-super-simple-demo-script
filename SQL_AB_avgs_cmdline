@@ -1,0 +1,38 @@
+/* In case you care where these data came from: 
+A description of the relevant experiment including links to the data
+posted on figshare is publicly available at https://psyarxiv.com/8br26/ 
+Briefly, the experiment compared visual attention to 
+climate-related vs. neutral words within rapidly presented streams 
+of visual stimuli. Accuracies are lowest at short lags between 
+quickly presented visual 'targets', thus the lower accuracies. 
+The climate-related words were more salient and easier for the 
+participants to report accurately, relative to neutral words (e.g. 'table'). */
+
+/* Anyway, about SQL:
+The commands below were executed from sqlite3 command prompt, 
+calculating average accuracies from a csv file
+with one row per participant. */
+
+.open
+.mode csv
+.import C:/Users/J/Desktop/SQL_SimpleDemo/ABaccuracies.csv ABaccuracies
+.schema
+.output C:/Users/J/Desktop/SQL_SimpleDemo/avgs.txt;
+select avg(ClimLag1), avg(ClimLag2), avg(ClimLag4), avg(ClimLag7),
+avg(NeutrLag1), avg(NeutrLag2), avg(NeutrLag4), avg(NeutrLag7)
+ from ABaccuracies;
+
+
+/* If we wanted to group by gender and look at a narrow age range, we could do this.
+This is just for the sake of demonstrating SQL skills, not for any real scientific motive.
+There isn't much reason to expect a difference by gender except that left vs. right 
+political orientation and concern about climate change vary a bit with gender, which 
+would affect attention to climate-related words. Age is more likely to matter, because
+of how visual processing speed changes with age, although there isn't much variability 
+within this sample of undergraduate university students anyway. */
+
+.output C:/Users/J/Desktop/SQL_SimpleDemo/avgsbygender.txt;
+select avg(ClimLag1), avg(ClimLag2), avg(ClimLag4), avg(ClimLag7),
+avg(NeutrLag1), avg(NeutrLag2), avg(NeutrLag4), avg(NeutrLag7) 
+ from ABaccuracies where (age > 19 and age < 23) group by gender;
+
